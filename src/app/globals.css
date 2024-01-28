@@ -1,0 +1,618 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Coming+Soon&family=Montserrat&family=Montserrat+Alternates&family=Open+Sans&family=Poppins&family=Roboto&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* font-family: 'Bebas Neue', sans-serif;
+font-family: 'Coming Soon', cursive;
+font-family: 'Montserrat', sans-serif;
+font-family: 'Montserrat Alternates', sans-serif;
+font-family: 'Open Sans', sans-serif;
+font-family: 'Poppins', sans-serif;
+font-family: 'Roboto', sans-serif; */
+
+:root {
+  --text: #f2eeed;
+  --text2: #c4c4c4;
+  --background: #011C27;
+  --primary: #FDD85D;
+  --secondary: #004b62;
+  --accent: #008284;
+}
+
+
+
+body {
+  overflow-y:hidden;
+  overflow-x:hidden;
+  color:var(--text);
+  
+  
+}
+
+html {
+  background-color: var(--background);
+}
+
+/* Home */
+
+.bg-image {
+  z-index:-1;
+  overflow-y: hidden;
+}
+
+.main {
+    overflow-y: hidden;
+    width: 90rem;
+    height: 39rem;
+}
+
+.heading {
+  color: var(--text);
+  font-size: 4rem;
+  font-family: 'Montserrat', sans-serif;
+  margin-left: 2rem;
+  padding-top: 12rem;
+  overflow: hidden;
+}
+
+.sub-text {
+  color: var(--text2);
+  font-size: 1.2rem;
+  font-family: 'Poppins', sans-serif;
+  margin-left: 2rem;
+  margin-top: 1rem;
+  overflow: hidden;
+}
+
+button {
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  background-color: var(--primary);
+  color: var(--background);
+  font-size: 1.1rem;
+  font-family: 'Poppins', sans-serif;
+  border: 2px solid var(--primary);
+  cursor: pointer;
+  transition: border-color 0.25s;
+  
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+
+.primary {
+  margin-top: 1rem;
+  margin-left: 1.5rem;
+}
+
+.secondary {
+  margin-left: 2rem;
+}
+
+.btn:hover {
+  background-color: var(--text);
+  border: 2px solid var(--background);
+}
+
+/* About */
+
+.about {
+  overflow-y: hidden;
+
+  width: 100rem;
+  height: 38rem;
+  background-color: var(--background);
+}
+
+.heading-about {
+
+  margin-top: 1rem;
+  margin-left: 65rem;
+  color: var(--text);
+font-size: 4rem;
+font-family: 'Montserrat', sans-serif;
+  
+}
+
+.flex {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  
+}
+
+.rectangle {
+  width: 20rem;
+  height: 28rem;
+  border: 2px solid var(--primary);
+  border-radius: 40px;
+}
+
+.rec1 {
+  margin-top: 5rem;
+  margin-left: 2rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  
+}
+.rec2 {
+  margin-top: -3rem;
+  
+  
+}
+.rec3 {
+  margin-top: 5rem;
+  
+  
+}
+.card-image {
+  width: 18rem;
+  height: 8rem;
+  background-color: white;
+  border-radius: 40px;
+  margin-left: 3.5%;
+}
+.card-image2 {
+  width: 18rem;
+  height: 8rem;
+  background-color: white;
+  margin-top: 2vh;
+  border-radius: 40px;
+  margin-left: 3.5%;
+}
+.card-image3 {
+  width: 18rem;
+  height: 8rem;
+  background-color: white;
+  margin-top: 2vh;
+  border-radius: 40px;
+  margin-left: 3.5%;
+}
+
+.card-heading {
+  color: var(--text);
+  margin-left: 1rem;
+  margin-top: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.5rem;
+}
+
+.card-text {
+  color: var(--text);
+  margin-left: 1rem;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.todo {
+  width: 50%;
+  margin-left: 5rem;
+  margin-top: 2rem;
+ 
+}
+
+.pomo {
+  margin-left: 5rem;
+}
+
+
+.finwal {
+  width: 50%;
+  margin-left: 5rem;
+  margin-top: 2rem;
+}
+
+
+
+
+/* To Do*/
+
+
+
+
+.todos {
+  width: 100rem;
+  height: 37rem;
+  background-color: var(--background);
+  overflow-y:scroll;
+}
+
+.heading-todos {
+
+  color: var(--text);
+font-size: 4rem;
+font-family: 'Montserrat', sans-serif;
+padding-top: 1rem;
+margin-left: 15rem;
+margin-top: 2rem;
+  
+}
+
+
+
+.todo-form {
+margin-left: 30rem;
+margin-top: 5rem;
+
+}
+
+#task {
+font-size: 1.3rem;
+padding: 1rem 2rem 1rem 2rem;
+border: 2px solid var(--secondary);
+border-radius: 10px;
+font-family: 'Poppins', sans-serif;
+text-align: center;
+margin-right: 2rem;
+}
+
+.sub-heading {
+color: var(--text);
+font-size: 2rem;
+font-family: 'Poppins', sans-serif;
+margin: 4rem 10rem;
+  
+}
+.todo-list {
+margin: -3rem 0rem 0rem 30rem;
+
+}
+
+
+
+input[type=checkbox] {
+margin: 4px 0 0;
+line-height: normal;
+width: 20px;
+height: 20px;
+}
+input[type=checkbox]:checked + .todo-list-items {
+
+color:var(--text2);
+text-decoration: line-through;
+
+}
+
+
+.todo-list-items {
+font-size: 1.3rem;
+font-family: 'Poppins', sans-serif;
+width: 8rem;
+
+}
+.completed-todo {
+display: flex;
+flex-direction: row;
+gap: 1rem;
+margin-bottom: 2rem;
+}
+
+.delete, .edit {
+padding: 1rem;
+background-color: transparent;
+
+margin-top: -1rem;
+color: white;
+}
+
+.delete-daily, .edit-daily {
+padding: 1rem;
+background-color: var(--primary);
+
+margin-top: -1rem;
+color: var(--background);
+}
+
+
+.delete:hover, .edit:hover {
+  background-color: transparent;
+  color: rgb(63, 27, 27);
+  }
+
+.delete-daily:hover, .edit-daily:hover {
+background-color: transparent;
+color: rgb(63, 27, 27);
+}
+
+#editinput {
+font-size: 1.3rem;
+padding: 2rem 2rem 1rem 2rem;
+border: 2px solid var(--secondary);
+border-radius: 10px;
+font-family: 'Poppins', sans-serif;
+text-align: center;
+margin-right: 2rem;
+}
+
+.sun {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  font-size:2rem;
+}
+
+.daily {
+margin-top: 2rem;
+margin-left: 70rem;
+height: 30px;
+}
+
+.clear {
+margin-left: 20rem;
+margin-top: -3.6rem;
+float: left;
+
+}
+
+.popup {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.6);
+opacity: 0;
+visibility: hidden;
+transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.display-block {
+opacity: 1;
+visibility: visible;
+}
+
+.display-none {
+visibility: hidden;
+}
+
+.popup-main {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background: rgba(0, 0, 0, 1);
+padding: 10rem 20rem 10rem 20rem;
+border-radius: 40px;
+transition: all 0.3s ease-in-out;
+}
+
+.heading-todos-daily {
+
+color: var(--text);
+font-size: 2rem;
+font-family: 'Montserrat', sans-serif;
+margin-top: -9rem;
+width: 20rem;
+
+}
+
+.todo-form-daily {
+padding: 2rem 2rem 2rem 2rem;
+border: 2px solid var(--primary);
+margin-top: 2rem;
+border-radius: 40px;
+margin-left: -15rem;
+}
+
+.sub-heading-daily {
+color: var(--text);
+font-size: 1.5rem;
+font-family: 'Poppins', sans-serif;
+margin-left: -14rem;
+margin-top: 2rem;
+}
+
+.daily-task {
+color:var(--text);
+font-size: 1.2rem;
+font-family: 'Poppins', sans-serif;
+}
+
+.save-daily {
+margin-top: 1rem;
+}
+
+.close {
+margin-top: 2rem;
+}
+
+
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+
+/* Pomodoro */
+
+.pomodoro {
+  width: auto;
+  height: 36rem;
+  overflow-y: hidden;
+  background-color: var(--background);
+}
+
+.heading-pomodoro {
+
+  margin-top: 2rem;
+  margin-left: 55rem;
+  color: var(--text);
+  font-size: 4rem;
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+.icon-container {
+  display: flex;
+  margin-left: 34rem;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.stopwatch,
+.timer {
+  width: 40px;
+  height: 40px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.stopwatch-time {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.stopwatch-controls button {
+  font-size: 18px;
+  margin: 5px;
+  padding: 10px;
+}
+
+.stopwatch-display {
+  font-size: 5rem;
+  margin-left: 50rem;
+  margin-top: -25rem;
+  cursor: none;
+  font-family: 'Poppins', sans-serif;
+}
+
+.control-panel {
+  margin: -7rem 29rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.contim {
+  margin-left: 30.5rem;
+}
+
+
+.circle {
+  margin-left: -11rem;
+  width:867px;
+  height: 648px;
+
+  animation: rotate 3s infinite;
+  margin-top:-9rem;
+}
+
+.start {
+  margin-left: 2rem;
+}
+
+.input-timer {
+    margin-left: 2rem;
+    padding: 1rem;
+    border-radius: 20px;
+    outline: none;
+    border: 2px solid var(--primary);
+}
+
+.circle1 {
+  width: 22rem;
+  height: 22rem;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-left: 26rem;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: margin-left 300ms ease-in-out, margin-top 300ms ease-in-out;
+}
+
+.stopwatch-control {
+    margin-left: 50rem;
+    margin-top: 1rem;
+
+}
+
+.timer1 {
+  margin-left: 0.5rem;
+  margin-top: -3rem;
+  font-size: 5rem;
+  cursor: none;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Chatroom */
+
+.note-body {
+    width: 100rem;
+    height: 39rem;
+    background-color: var(--background);
+  overflow-y: scroll;
+
+}
+
+.heading-note {
+  color:var(--text);
+  font-size: 3rem;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  margin-right: 15rem;
+}
+
+.clear-canvas {
+  float:left;
+  margin-top: 2rem;
+  margin-left:-4rem;
+}
+
+.erase-canvas {
+  float:left;
+  margin-top: 12rem;
+  margin-left:-6rem;
+}
+.size-canvas {
+  float:left;
+  margin-top: 12rem;
+  margin-left:-6rem;
+}
+
+.color-picker {
+  margin-top:9rem;
+  float:left;
+ margin-left: 5rem;
+}
+
+
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+

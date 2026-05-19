@@ -1,43 +1,56 @@
 import Link from "next/link";
+import Nav from "@/components/Nav";
 
-const page = () => {
-    return (
-        <div className="about">
-        <h1 className="heading-about">About</h1>
-        <div className="flex">
-        <div className="rectangle rec1 ">
-            <div className="card-image"></div>
-            <h1 className="card-heading">To-Do</h1>
-            <h1 className="card-text">Our ToDo List can help you easily organise your day and your daily task you can add and remove any task and mark them complete when ever you have completed the task</h1>
-           
-           <Link href="/todo">
-            <button className="btn todo">To-Do</button>
-          </Link>
-
+const About = () => {
+  return (
+    <>
+      <Nav />
+      <div className="about-page">
+        <div className="page-header">
+          <p className="page-eyebrow">What we offer</p>
+          <h1 className="page-title">Three tools.<br />One flow.</h1>
         </div>
-        <div className="rectangle rec2">
-        <div className="card-image2"></div>
-            <h1 className="card-heading">Pomodoro</h1>
-            <h1 className="card-text">Pomodoro can help you easily focus on any task on hand with no disturbance you can change timers and set break lengths for your pomodoro according to what you prefer</h1>
-            
+
+        <div className="cards-grid">
+          <div className="feature-card">
+            <div className="feature-card-num">01</div>
+            <h2>To-Do</h2>
+            <p>
+              Easily organise your day with tasks you can add, edit, remove, or
+              mark complete. Daily repeating tasks reset automatically every 24 hours.
+            </p>
+            <Link href="/todo">
+              <button className="btn btn-gold">Open To-Do</button>
+            </Link>
+          </div>
+
+          <div className="feature-card">
+            <div className="feature-card-num">02</div>
+            <h2>Pomodoro</h2>
+            <p>
+              Stay locked in with a countdown timer or track time with a stopwatch.
+              Set custom session lengths to match your ideal focus rhythm.
+            </p>
             <Link href="/pomo">
-            <button className="btn pomo">Pomodoro</button>
+              <button className="btn btn-gold">Open Pomodoro</button>
             </Link>
-        </div>
-        <div className="rectangle rec3">
+          </div>
 
-        <div className="card-image3"></div>
-            <h1 className="card-heading">Note</h1>
-            <h1 className="card-text">Notes are the proven best way to study and understant concepts. Notes is a special part of this because our notes has multi colours in it and different pen.</h1>
-            
+          <div className="feature-card">
+            <div className="feature-card-num">03</div>
+            <h2>Notes</h2>
+            <p>
+              A freeform drawing canvas with multiple pen colours and an eraser.
+              Great for quick sketches, diagrams, or visual thinking.
+            </p>
             <Link href="/note">
-            <button className="btn finwal">Notes</button>
+              <button className="btn btn-gold">Open Notes</button>
             </Link>
+          </div>
         </div>
-        
-        </div>
-    </div>
-    )
-}   
+      </div>
+    </>
+  );
+};
 
-export default page
+export default About;

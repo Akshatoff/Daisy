@@ -1,210 +1,202 @@
 "use client"
 
-import Image from 'next/image'
-import { useEffect, useRef, useState} from 'react'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faStopwatch, faHourglass } from '@fortawesome/free-solid-svg-icons';
-import '@fortawesome/fontawesome-svg-core/styles.css'; // import the styles
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faStopwatch, faHourglass } from '@fortawesome/free-solid-svg-icons';
-library.add(faStopwatch);
-library.add(faHourglass);
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import Nav from "@/components/Nav";
 
-// config.autoAddCss = false; // disable automatic styles injection
+const format = (s) => {
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  if (h > 0) return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
+  return `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
+};
 
-const Page = () => {
+const FLOWER_IMAGES = [
+  "/assets/MainFlower.png",
+  "/assets/Petal1.png","/assets/Petal1.png",
+  "/assets/Petal2.png","/assets/Petal2.png",
+  "/assets/Petal3.png","/assets/Petal3.png",
+  "/assets/Petal4.png","/assets/Petal4.png",
+  "/assets/Petal5.png","/assets/Petal5.png",
+  "/assets/Petal6.png","/assets/Petal6.png",
+  "/assets/Petal7.png","/assets/Petal7.png",
+  "/assets/Petal8.png","/assets/Petal8.png",
+];
 
-  const [time, setTime] = useState(0)
-  const [time1, setTime1] = useState(0)
-  const [running, setRunning] = useState(false)
-  const [running1, setRunning1] = useState(false)
-  const [isclicked, setisclicked] = useState(false)
-  const [isclicked1, setisclicked1] = useState(true)
-  const [inputtime, setinputime] = useState("")
-  const Images = [
-    "/assets/MainFlower.png",
-    "/assets/Petal1.png",
-    "/assets/Petal1.png",
-    "/assets/Petal2.png",
-    "/assets/Petal2.png",
-    "/assets/Petal3.png",
-    "/assets/Petal3.png",
-    "/assets/Petal4.png",
-    "/assets/Petal4.png",
-    "/assets/Petal5.png",
-    "/assets/Petal5.png",
-    "/assets/Petal6.png",
-    "/assets/Petal6.png",
-    "/assets/Petal7.png",
-    "/assets/Petal7.png",
-    "/assets/Petal8.png",
-    "/assets/Petal8.png",
+const PomoPage = () => {
+  const [mode, setMode] = useState("stopwatch"); // "stopwatch" | "timer"
 
-  ]
+  // Stopwatch
+  const [swTime, setSwTime] = useState(0);
+  const [swRunning, setSwRunning] = useState(false);
+  const [flowerIdx, setFlowerIdx] = useState(0);
 
-  const [ImageIndex, SetImageIndex] = useState(0);
+  // Timer
+  const [timerInput, setTimerInput] = useState("");
+  const [timerTime, setTimerTime] = useState(0);
+  const [timerRunning, setTimerRunning] = useState(false);
+  const [timerSet, setTimerSet] = useState(false);
 
+  const swRef = useRef();
+  const timerRef = useRef();
 
-  const handleClick = () => {
-    setisclicked(!isclicked)
-  }
-  const handleClick1 = () => {
-    setisclicked1(!isclicked1)
-  }
-
-  const startStopwatch = () => {
-    handleClick()
-    handleClick1()
-  }
-
-  const startTimer = () => {
-    handleClick()
-    handleClick1()
-  }
-
-  const handlStart = () => {
-    if (!running && inputtime > 0) {
-      setRunning(true)
-      setTime(inputtime)
-    }
-  }
-  const handlStart1 = () => {
-    setRunning1((prevState) => !prevState);
-  };
-
-  const ResetStopwatch = () => {
-    setTime1(0)
-    SetImageIndex(0)
-  }
-
-  const timer = useRef()
-  const stopwatch = useRef()
-  
+  // Stopwatch effect
   useEffect(() => {
-    if (running1) {
-      const intervalId = setInterval(() => {
-        setTime1((prevTime) => {
-          if ((prevTime + 1) % 60 === 0) {
-            SetImageIndex((prevIndex) => (prevIndex+1) % Images.length);
-          }
-          return prevTime + 1;
-        });
-      }, 1000);
-  
-      return () => {
-        clearInterval(intervalId);
-      };
-    }
-  }, [running1, Images]);
-    
-
-  useEffect(() => {
-    
-    if (running) {
-      timer.current = setInterval(() => {
-        setTime((prevTime) => {
-          if (prevTime > 0) {
-            return prevTime - 1;
-          } else {
-            setRunning(false);
-            clearInterval(timer.current);
-            return 0;
-          }
+    if (swRunning) {
+      swRef.current = setInterval(() => {
+        setSwTime(t => {
+          if ((t + 1) % 60 === 0) setFlowerIdx(i => (i + 1) % FLOWER_IMAGES.length);
+          return t + 1;
         });
       }, 1000);
     } else {
-      clearInterval(timer.current);
+      clearInterval(swRef.current);
     }
-  
-    return () => clearInterval(timer.current);
-  }, [running, running1]);
+    return () => clearInterval(swRef.current);
+  }, [swRunning]);
 
-  
+  // Timer effect
+  useEffect(() => {
+    if (timerRunning) {
+      timerRef.current = setInterval(() => {
+        setTimerTime(t => {
+          if (t <= 1) {
+            setTimerRunning(false);
+            clearInterval(timerRef.current);
+            return 0;
+          }
+          return t - 1;
+        });
+      }, 1000);
+    } else {
+      clearInterval(timerRef.current);
+    }
+    return () => clearInterval(timerRef.current);
+  }, [timerRunning]);
+
+  const startTimer = () => {
+    const secs = parseInt(timerInput, 10);
+    if (!secs || secs <= 0) return;
+    setTimerTime(secs);
+    setTimerSet(true);
+    setTimerRunning(true);
+  };
+
+  const resetSw = () => { setSwTime(0); setSwRunning(false); setFlowerIdx(0); };
+  const resetTimer = () => { setTimerTime(0); setTimerRunning(false); setTimerSet(false); setTimerInput(""); };
+
   return (
-    <div className="pomodoro">
-        <h1 className="heading-pomodoro">Pomodoro</h1>
-        <div className="icon-container">
-        <FontAwesomeIcon icon={faStopwatch} className="stopwatch"  onClick={startStopwatch}/>
-      <FontAwesomeIcon icon={faHourglass} className="timer" onClick={startTimer}/>
-      </div>
-     
-      
-      
-      {isclicked &&  
-      <>
-         <input
-              type="number"
-              value={inputtime}
-              onChange={(e) => setinputime(e.target.value)}
-              placeholder="Enter time in seconds"
-              className='input-timer'
-            />
-            <button className="btn start" onClick={handlStart}>
-              Start Timer
-            </button>
-            <div className="circle1">
-      <h3 className="timer1">{format1(time)}</h3>
-      </div>
-      <div className="control-panel contim">
-      <button className="btn restart" onClick={() => setTime(0)}>Restart</button>
-      <button className="btn stop" onClick={() => {
-        if (running) clearInterval(timer.current)
-        setRunning(!running)
-      }}>{running ?'Stop' : 'Start'}</button>
-      
-      </div>
-      </>}
+    <>
+      <Nav />
+      <div className="pomo-page">
+        {/* Sidebar */}
+        <div className="pomo-sidebar">
+          <h2>Pomodoro</h2>
+          <p style={{ fontSize: "0.85rem", color: "var(--text3)", lineHeight: 1.6, marginBottom: "0.5rem" }}>
+            Choose your mode and start a focused session.
+          </p>
 
-      {isclicked1 && (
-        <div>
-          <Image src={Images[ImageIndex]}
-          alt="stopwacth"
-          width={1000}
-          height={500}
-          className={`circle ${running1 ? 'rotate' : ''}`}
+          <button
+            className={`pomo-mode-btn ${mode === "stopwatch" ? "active" : ""}`}
+            onClick={() => setMode("stopwatch")}
           >
-          
-          </Image>
-            
-          
-          <h3 className="stopwatch-display">{format(time1)}</h3>
-          <div className="control-panel stopwatch-control">
-            <button className="btn restart" onClick={ResetStopwatch}>
-              Restart
-            </button>
-            <button
-              className="btn stop"
-            onClick={handlStart1}
-            >
-              {running1 ? "Stop" : "Start"}
-            </button>
+            <span className="mode-icon">◷</span>
+            Stopwatch
+          </button>
+
+          <button
+            className={`pomo-mode-btn ${mode === "timer" ? "active" : ""}`}
+            onClick={() => setMode("timer")}
+          >
+            <span className="mode-icon">⏳</span>
+            Timer
+          </button>
+
+          <div style={{ marginTop: "auto", padding: "1rem 0", borderTop: "1px solid var(--border)" }}>
+            <p style={{ fontSize: "0.75rem", color: "var(--text3)", lineHeight: 1.7 }}>
+              The flower blooms as you work — each minute of focus adds a petal.
+            </p>
           </div>
         </div>
-      )}
-   
 
-      
-    </div>
+        {/* Main area */}
+        <div className="pomo-main">
+          {mode === "stopwatch" && (
+            <>
+              <Image
+                src={FLOWER_IMAGES[flowerIdx]}
+                alt="progress flower"
+                width={280}
+                height={280}
+                className={`pomo-flower ${swRunning ? "rotate" : ""}`}
+                style={{ animation: swRunning ? "rotate 4s linear infinite" : "none" }}
+              />
+              <div className="pomo-display">
+                <p className="pomo-label">Elapsed time</p>
+                <div className={`pomo-time ${swRunning ? "running" : ""}`}>{format(swTime)}</div>
+              </div>
+              <div className="pomo-controls">
+                <button className="btn btn-outline" onClick={resetSw}>Reset</button>
+                <button className="btn btn-gold" onClick={() => setSwRunning(r => !r)}>
+                  {swRunning ? "Pause" : "Start"}
+                </button>
+              </div>
+            </>
+          )}
+
+          {mode === "timer" && (
+            <>
+              <div className="pomo-display">
+                <p className="pomo-label">{timerRunning ? "Focus time remaining" : "Set your timer"}</p>
+                <div className={`pomo-time ${timerRunning ? "running" : ""}`}>
+                  {timerSet ? format(timerTime) : "00:00"}
+                </div>
+              </div>
+
+              {!timerSet && (
+                <div className="pomo-timer-setup">
+                  <label htmlFor="timerInput">Duration in seconds</label>
+                  <input
+                    id="timerInput"
+                    type="number"
+                    className="pomo-input"
+                    value={timerInput}
+                    onChange={e => setTimerInput(e.target.value)}
+                    placeholder="e.g. 1500"
+                    min="1"
+                  />
+                  <button className="btn btn-gold" onClick={startTimer}>Start Timer</button>
+                </div>
+              )}
+
+              {timerSet && (
+                <div className="pomo-controls">
+                  <button className="btn btn-outline" onClick={resetTimer}>Reset</button>
+                  <button className="btn btn-gold" onClick={() => setTimerRunning(r => !r)}>
+                    {timerRunning ? "Pause" : "Resume"}
+                  </button>
+                </div>
+              )}
+
+              {timerTime === 0 && timerSet && (
+                <p style={{ color: "var(--gold)", fontFamily: "'Playfair Display', serif", fontSize: "1.4rem", fontStyle: "italic" }}>
+                  Time's up — great work!
+                </p>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+
+      <style jsx global>{`
+        @keyframes rotate {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+      `}</style>
+    </>
   );
-}
-
-const format = (time) => {
-  let hour = Math.floor(time/60/60%24)
-  let minutes = Math.floor(time/60 % 60)
-  let second = Math.floor(time%60)
-
-  hour = hour < 10 ? '0' + hour : hour
-  minutes = minutes < 10 ? '0' + minutes : minutes
-  second = second < 10 ? '0' + second : second
-
-  return hour + ":" + minutes + ":" + second
-}
-
-const format1 = (time1) => {
-  const minutes = Math.floor(time1 / 60);
-  const seconds = time1 % 60;
-  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 };
 
-export default Page
+export default PomoPage;

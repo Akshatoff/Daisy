@@ -1,341 +1,232 @@
 'use client'
 
 import { useState, useEffect } from "react";
-import Popup from './popup';
-import '@fortawesome/fontawesome-svg-core/styles.css'; // import the styles
-import { config } from '@fortawesome/fontawesome-svg-core';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSun } from '@fortawesome/free-solid-svg-icons';
+import Nav from "@/components/Nav";
 
-library.add(faSun);
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+/* ---- Daily Tasks Popup ---- */
+const DailyPopup = ({ show, onClose }) => {
+  const [tasks, setTasks] = useState([]);
+  const [input, setInput] = useState("");
+  const [editId, setEditId] = useState(null);
+  const [editText, setEditText] = useState("");
 
-// config.autoAddCss = false; // disable automatic styles injection
+  useEffect(() => {
+    const val = localStorage.getItem("TASK");
+    setTasks(val ? JSON.parse(val) : []);
+  }, []);
 
-const Page = () => {
+  useEffect(() => {
+    localStorage.setItem("TASK", JSON.stringify(tasks));
+  }, [tasks]);
 
+  const add = (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    setTasks(t => [...t, { id: crypto.randomUUID(), title: input.trim(), completed: false }]);
+    setInput("");
+  };
 
-    const [showPopup, setShowPopup] = useState(false);
-    const [editItemId, setEditItemId] = useState(null);
-const [editTaskId, setEditTaskId] = useState(null);
-const [editItemText, setEditItemText] = useState("");
-const [editTaskText, seteditTaskText] = useState("");
-const [newTask1, setnewTask1] = useState("")
+  const toggle = (id, val) =>
+    setTasks(t => t.map(x => x.id === id ? { ...x, completed: val } : x));
 
-  const togglePopup = () => {
-    setShowPopup(!showPopup);
+  const remove = (id) => setTasks(t => t.filter(x => x.id !== id));
 
-    }
-    const [newItem, setNewItem] = useState("");
-    const [todos, SetTodos] = useState([])
-     
-    useEffect(() => {
-      // Initialize 'todos' from localStorage
-      const localValue = localStorage.getItem("ITEMS");
-      SetTodos(localValue ? JSON.parse(localValue) : []);
-    }, []);
-      
+  const startEdit = (id, text) => { setEditId(id); setEditText(text); };
 
-const [taskarr, Settaskarr] = useState([])
-
-useEffect(() => {
-  // Initialize 'taskarr' from localStorage
-  const localTaskValue = localStorage.getItem("TASK");
-  Settaskarr(localTaskValue ? JSON.parse(localTaskValue) : []);
-}, []);
-
-
-
-    useEffect(() => {
-     
-        localStorage.setItem("ITEMS", JSON.stringify(todos))
-      }
-      , [todos])
-  
-    useEffect(() => {
-     
-      localStorage.setItem("TASK", JSON.stringify(taskarr))
-      }
-    , [taskarr])
-
-    useEffect(() => {
-      
-     
-      const uncheckCompletedTasks = () => {
-        Settaskarr((currentDailyTask) => {
-          return currentDailyTask.map((task) => {
-            return { ...task, completed: false };
-          });
-        });
-      };
-  
-     
-      const intervalId = setInterval(uncheckCompletedTasks, 24 * 60 * 60 * 1000);
-  
-      
-      return () => clearInterval(intervalId);
-    }
-    , []);
-
-    function Submithandle(e) {
-      e.preventDefault();
-
-      const newTask = {
-        id: crypto.randomUUID(),
-        title: newItem,
-        completed: false,
-      };
-    
-      SetTodos((currentTodos) => [
-        ...currentTodos,
-        newTask,
-      ]);
-        setNewItem("")
-       
-    }
-
-    function Submithandle1(e) {
-      e.preventDefault();
-
-      const newDailyTask = {
-        id: crypto.randomUUID(),
-        title: newTask1,
-        completed: false,
-      };
-    
-      Settaskarr((currentDailyTask) => [
-        ...currentDailyTask,
-        newDailyTask,
-      ]);
-        setnewTask1("")
-        console.log("I wanna die")
-       
-    }
-
-    function toggleTodo(id, completed) {
-        SetTodos(currentTodos => {
-            return currentTodos.map(todo => {
-                if (todo.id === id) {
-                
-                    return {...todo, completed}
-                }
-                return todo
-            })
-        })
-    }
-
-    function toggleTask(id, completed) {
-      Settaskarr(currentDailyTask => {
-          return currentDailyTask.map(task => {
-              if (task.id === id) {
-              
-                  return {...task, completed}
-              }
-              return task
-          })
-      })
-  }
-
-    function DeleteTodo(id) {
-        SetTodos(currentTodos => {
-            return currentTodos.filter(todo => todo.id !== id)
-        })
-    }
-
-     
-
-    function DeleteTodo1(id) {
-      Settaskarr(currentTodos => {
-          return currentTodos.filter(todo => todo.id !== id)
-      })
-  }
-
-    function ClearTodos() {
-      localStorage.removeItem("ITEMS")
-      window.location.reload();
-  }
-  
-
-    function startEdit(id, text) {
-        setEditItemId(id);
-        setEditItemText(text);
-      }
-
-      function startEdit1(id, text) {
-        setEditTaskId(id);
-        seteditTaskText(text);
-      }
-      
-      function saveEdit(id) {
-        if (editItemText.trim() === "") {
-          // Don't save empty todo items
-          return;
-        }
-      
-        SetTodos((currentTodos) => {
-          return currentTodos.map((todo) => {
-            if (todo.id === id) {
-              return { ...todo, title: editItemText };
-              
-            }
-            return todo;
-          });
-        });
-      
-        // Reset editing state
-        setEditItemId(null);
-        setEditItemText("");
-      }
-
-      function saveEditTask (id) {
-        if (editTaskText.trim() === "") {
-          // Don't save empty todo items
-          return;
-        }
-      
-        Settaskarr((currentDailyTask) => {
-          return currentDailyTask.map((task) => {
-            if (task.id === id) {
-              return { ...task, title: editTaskText };
-              
-            }
-            return task;
-          });
-        });
-      
-        // Reset editing state
-        setEditTaskId(null);
-        seteditTaskText("");
-      }
-      
-  return (
-    
-    
-    <div className="todos">
-
-      <div className="daily" >
-    <FontAwesomeIcon icon={faSun} className='sun' onClick={togglePopup}/> 
-    <Popup show={showPopup} handleClose={togglePopup}>
-    <h1 className="heading-todos-daily">Daily To-Do</h1>
-    <form onSubmit={Submithandle1} className="todo-form-daily">
-        
-        <div className="form-row-daily">
-            <input value = {newTask1} onChange = {e => setnewTask1(e.target.value)} type="text" name="Input" id="task" placeholder='Please Enter Your Todo '/>
-            <button className="btn add">Add Task</button>
-            
-        </div>
-
-      </form>
-      <h2 className='sub-heading-daily'>Daily Tasks:</h2>
-          <ul>
-          
-          
-        {taskarr.map((task) => {
-    const isEditing1 = editTaskId === task.id;
+  const saveEdit = (id) => {
+    if (!editText.trim()) return;
+    setTasks(t => t.map(x => x.id === id ? { ...x, title: editText.trim() } : x));
+    setEditId(null);
+    setEditText("");
+  };
 
   return (
-    <li key={task.id} className='daily-task'>
-      {isEditing1 ? (
-        <div className="edit-todo">
+    <div className={`popup-overlay ${show ? "show" : ""}`} onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="popup-box">
+        <h2>Daily Tasks</h2>
+
+        <form onSubmit={add} style={{ display: "flex", gap: "0.6rem", marginBottom: "1.5rem" }}>
           <input
-            id='editinput'
-            type="text"
-            value={editTaskText}
-            onChange={(e) => seteditTaskText(e.target.value)}
+            className="input"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            placeholder="Add a daily task…"
           />
-          <button className="btn save-daily" onClick={() => saveEditTask(task.id)}>
-            Save
-          </button>
-        </div>
-      ) : (
-        <label htmlFor="" className="completed-todo">
-          <input
-            type="checkbox"
-            onChange={(e) => toggleTask(task.id, e.target.checked)}
-            checked={task.completed}
-            name="Task Completed"
-            id="checkbox"
-          />
-          <h2 className="todo-list-items">{task.title}</h2>
-          <button className="btn delete-daily" onClick={() => DeleteTodo1(task.id)}>
-            Delete
-          </button>
-          <button className="btn edit-daily" onClick={() => startEdit1(task.id, task.title)}>
-            Edit
-          </button>
-        </label>
-      )}
-    </li>
-    
-  );
-})}
-          </ul>
-      
-      </Popup>
+          <button type="submit" className="btn btn-gold" style={{ whiteSpace: "nowrap" }}>Add</button>
+        </form>
+
+        <ul className="todo-list">
+          {tasks.length === 0 && (
+            <p style={{ color: "var(--text3)", fontSize: "0.9rem" }}>No daily tasks yet.</p>
+          )}
+          {tasks.map(task => (
+            <li key={task.id} className={`todo-item ${task.completed ? "completed" : ""}`}>
+              {editId === task.id ? (
+                <div className="todo-edit-row">
+                  <input
+                    className="input"
+                    value={editText}
+                    onChange={e => setEditText(e.target.value)}
+                    style={{ padding: "0.4rem 0.8rem" }}
+                  />
+                  <button className="btn btn-gold" onClick={() => saveEdit(task.id)} style={{ padding: "0.4rem 1rem", fontSize: "0.85rem" }}>Save</button>
+                  <button className="btn btn-ghost" onClick={() => setEditId(null)}>×</button>
+                </div>
+              ) : (
+                <>
+                  <input
+                    type="checkbox"
+                    className="todo-checkbox"
+                    checked={task.completed}
+                    onChange={e => toggle(task.id, e.target.checked)}
+                  />
+                  <span className="todo-text">{task.title}</span>
+                  <div className="todo-actions">
+                    <button className="todo-action-btn" onClick={() => startEdit(task.id, task.title)}>Edit</button>
+                    <button className="todo-action-btn danger" onClick={() => remove(task.id)}>Delete</button>
+                  </div>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+
+        <button className="btn btn-outline" style={{ marginTop: "1.5rem" }} onClick={onClose}>Close</button>
+      </div>
     </div>
+  );
+};
 
-    
-      <h1 className="heading-todos">To-Do</h1>
-        
-      <form onSubmit={Submithandle} className="todo-form">
-        
-        <div className="form-row">
-            <input value = {newItem} onChange = {e => setNewItem(e.target.value)} type="text" name="Input" id="task" placeholder='Please Enter Your Todo '/>
-            <button className="btn add">Add Task</button>
-            
-        </div>
+/* ---- Main Page ---- */
+const TodoPage = () => {
+  const [todos, setTodos] = useState([]);
+  const [input, setInput] = useState("");
+  const [editId, setEditId] = useState(null);
+  const [editText, setEditText] = useState("");
+  const [showDaily, setShowDaily] = useState(false);
 
-      </form>
-      <button className="btn clear" onClick={ClearTodos}>Clear Task</button>
-      <h1 className="sub-heading">Current Todos</h1>
-      <ul className="todo-list">
-        {todos.length === 0 && "No Todos"}
+  useEffect(() => {
+    const val = localStorage.getItem("ITEMS");
+    setTodos(val ? JSON.parse(val) : []);
+  }, []);
 
+  useEffect(() => {
+    localStorage.setItem("ITEMS", JSON.stringify(todos));
+  }, [todos]);
 
-        {todos.map((todo) => {
-  const isEditing = editItemId === todo.id;
+  const add = (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    setTodos(t => [...t, { id: crypto.randomUUID(), title: input.trim(), completed: false }]);
+    setInput("");
+  };
+
+  const toggle = (id, val) =>
+    setTodos(t => t.map(x => x.id === id ? { ...x, completed: val } : x));
+
+  const remove = (id) => setTodos(t => t.filter(x => x.id !== id));
+
+  const startEdit = (id, text) => { setEditId(id); setEditText(text); };
+
+  const saveEdit = (id) => {
+    if (!editText.trim()) return;
+    setTodos(t => t.map(x => x.id === id ? { ...x, title: editText.trim() } : x));
+    setEditId(null);
+    setEditText("");
+  };
+
+  const clearAll = () => {
+    localStorage.removeItem("ITEMS");
+    setTodos([]);
+  };
+
+  const remaining = todos.filter(t => !t.completed).length;
 
   return (
-    <li key={todo.id}>
-      {isEditing ? (
-        <div className="edit-todo">
-          <input
-            id='editinput'
-            type="text"
-            value={editItemText}
-            onChange={(e) => setEditItemText(e.target.value)}
-          />
-          <button className="btn save" onClick={() => saveEdit(todo.id)}>
-            Save
-          </button>
-        </div>
-      ) : (
-        <label htmlFor="" className="completed-todo">
-          <input
-            type="checkbox"
-            onChange={(e) => toggleTodo(todo.id, e.target.checked)}
-            checked={todo.completed}
-            name="Task Completed"
-            id="checkbox"
-          />
-          <h2 className="todo-list-items">{todo.title}</h2>
-          <button className="btn delete" onClick={() => DeleteTodo(todo.id)}>
-            Delete
-          </button>
-          <button className="btn edit" onClick={() => startEdit(todo.id, todo.title)}>
-            Edit
-          </button>
-        </label>
-      )}
-    </li>
-    
-  );
-})}
-        
-       
-      </ul>
-    </div>
-    )
-}
+    <>
+      <Nav />
+      <DailyPopup show={showDaily} onClose={() => setShowDaily(false)} />
 
-export default Page
+      <div className="todo-page">
+        <div className="todo-header-row">
+          <div>
+            <p className="page-eyebrow">Your list</p>
+            <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", color: "var(--text)", lineHeight: 1.1 }}>
+              To-Do
+            </h1>
+          </div>
+          <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+            {todos.length > 0 && (
+              <span style={{ fontSize: "0.82rem", color: "var(--text3)" }}>
+                {remaining} remaining
+              </span>
+            )}
+            <button className="daily-sun-btn" onClick={() => setShowDaily(true)}>
+              ☀ Daily Tasks
+            </button>
+          </div>
+        </div>
+
+        <form onSubmit={add} className="todo-add-form">
+          <input
+            className="input"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            placeholder="What needs to be done?"
+          />
+          <button type="submit" className="btn btn-gold" style={{ whiteSpace: "nowrap" }}>Add task</button>
+        </form>
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+          <p className="todo-section-label">Tasks</p>
+          {todos.length > 0 && (
+            <button className="btn btn-ghost" onClick={clearAll} style={{ fontSize: "0.8rem", color: "var(--danger)" }}>
+              Clear all
+            </button>
+          )}
+        </div>
+
+        <ul className="todo-list">
+          {todos.length === 0 && (
+            <div style={{ textAlign: "center", padding: "3rem 0", color: "var(--text3)", fontSize: "0.9rem" }}>
+              No tasks yet — add one above
+            </div>
+          )}
+
+          {todos.map(todo => (
+            <li key={todo.id} className={`todo-item ${todo.completed ? "completed" : ""}`}>
+              {editId === todo.id ? (
+                <div className="todo-edit-row">
+                  <input
+                    className="input"
+                    value={editText}
+                    onChange={e => setEditText(e.target.value)}
+                    style={{ padding: "0.4rem 0.8rem" }}
+                  />
+                  <button className="btn btn-gold" onClick={() => saveEdit(todo.id)} style={{ padding: "0.4rem 1rem", fontSize: "0.85rem" }}>Save</button>
+                  <button className="btn btn-ghost" onClick={() => setEditId(null)}>×</button>
+                </div>
+              ) : (
+                <>
+                  <input
+                    type="checkbox"
+                    className="todo-checkbox"
+                    checked={todo.completed}
+                    onChange={e => toggle(todo.id, e.target.checked)}
+                  />
+                  <span className="todo-text">{todo.title}</span>
+                  <div className="todo-actions">
+                    <button className="todo-action-btn" onClick={() => startEdit(todo.id, todo.title)}>Edit</button>
+                    <button className="todo-action-btn danger" onClick={() => remove(todo.id)}>Delete</button>
+                  </div>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+};
+
+export default TodoPage;

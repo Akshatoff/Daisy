@@ -1,14 +1,18 @@
 import './globals.css'
+import Toast from '@/components/Toast'
 
 export const metadata = {
-  title: 'Daisy',
-  description: 'Your productivity sanctuary',
+  title: 'Daisy — Focus & Productivity',
+  description: 'Tasks, focus sessions, notes, and clarity — all in one place.',
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toast />
+      </body>
     </html>
   )
 }
